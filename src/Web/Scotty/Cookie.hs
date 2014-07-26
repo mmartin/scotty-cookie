@@ -56,7 +56,7 @@ import Data.Time.Clock.POSIX ( posixSecondsToUTCTime )
 
 import Blaze.ByteString.Builder ( toLazyByteString )
 
-import Web.Scotty
+import Web.Scotty.Trans
 import Web.Cookie
 
 
@@ -68,29 +68,35 @@ makeSimpleCookie n v = def { setCookieName  = TS.encodeUtf8 n
                            }
 
 
-setCookie :: SetCookie -> ActionM ()
+setCookie :: (Monad m, ScottyError e)
+          => SetCookie
+          -> ActionT e m ()
 setCookie c = setHeader "Set-Cookie" (TL.decodeUtf8 . toLazyByteString $ renderSetCookie c)
 
 
 -- | 'makeSimpleCookie' and 'setCookie' combined.
-setSimpleCookie :: TS.Text -- ^ name
+setSimpleCookie :: (Monad m, ScottyError e)
+                => TS.Text -- ^ name
                 -> TS.Text -- ^ value
-                -> ActionM ()
+                -> ActionT e m ()
 setSimpleCookie n v = setCookie $ makeSimpleCookie n v
 
 
-getCookie :: TS.Text -- ^ name
-          -> ActionM (Maybe TS.Text)
+getCookie :: (Monad m, ScottyError e)
+          => TS.Text -- ^ name
+          -> ActionT e m (Maybe TS.Text)
 getCookie c = liftM (Map.lookup c) getCookies
 
 
 -- | Returns all cookies
-getCookies :: ActionM (Map.Map TS.Text TS.Text)
+getCookies :: (Monad m, ScottyError e)
+           => ActionT e m (Map.Map TS.Text TS.Text)
 getCookies = liftM (Map.fromList . maybe [] parse) $ header "Cookie"
     where parse = parseCookiesText . BSL.toStrict . TL.encodeUtf8
 
 
-deleteCookie :: TS.Text -- ^ name
-             -> ActionM ()
+deleteCookie :: (Monad m, ScottyError e)
+             => TS.Text -- ^ name
+             -> ActionT e m ()
 deleteCookie c = setCookie $ (makeSimpleCookie c "") { setCookieExpires = Just $ posixSecondsToUTCTime 0 }
 
