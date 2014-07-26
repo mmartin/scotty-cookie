@@ -16,18 +16,15 @@ import Web.Scotty.Cookie
 
 main :: IO ()
 main = scotty 3000 $
-    get "/" $ do
-        hits <- liftM (fromMaybe "0") $ getCookie "hits"
-
+    get \"/\" $ do
+        hits <- liftM (fromMaybe \"0\") $ getCookie \"hits\"
         let hits' = case decimal hits of
                         Right n -> TL.pack . show . (+1) $ (fst n :: Integer)
-                        Left _  -> "1"
-
-        setSimpleCookie "hits" $ TL.toStrict hits'
-
-        html $ mconcat [ "\<html\>\<body\>"
+                        Left _  -> \"1\"
+        setSimpleCookie \"hits\" $ TL.toStrict hits'
+        html $ mconcat [ \"\<html\>\<body\>\"
                        , hits'
-                       , "\<\/body\>\<\/html\>"
+                       , \"\<\/body\>\<\/html\>\"
                        ]
 @
 

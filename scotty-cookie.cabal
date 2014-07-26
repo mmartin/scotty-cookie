@@ -1,5 +1,5 @@
 name:                scotty-cookie
-version:             0.1.0.0
+version:             0.1.0.2
 synopsis:            Cookie management helper functions for Scotty framework
 description:         Cookie management helper functions for Scotty framework
 homepage:            https://bitbucket.org/wniare/scotty-cookie
