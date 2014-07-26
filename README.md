@@ -1,5 +1,7 @@
 # Cookie management helper functions for Scotty framework
 
+## Usage example: simple hit counter
+
 ```haskell
 {-# LANGUAGE OverloadedStrings #-}
 

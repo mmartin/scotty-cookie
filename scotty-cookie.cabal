@@ -1,7 +1,7 @@
 name:                scotty-cookie
 version:             0.1.0.0
-synopsis:            Library for managing cookies in Scotty
-description:         Library for managing cookies in Scotty
+synopsis:            Cookie management helper functions for Scotty framework
+description:         Cookie management helper functions for Scotty framework
 homepage:            https://bitbucket.org/wniare/scotty-cookie
 license:             BSD3
 license-file:        LICENSE
