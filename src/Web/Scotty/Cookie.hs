@@ -68,7 +68,7 @@ makeSimpleCookie n v = def { setCookieName  = TS.encodeUtf8 n
 setCookie :: (Monad m, ScottyError e)
           => SetCookie
           -> ActionT e m ()
-setCookie c = setHeader "Set-Cookie" (TL.decodeUtf8 . toLazyByteString $ renderSetCookie c)
+setCookie c = addHeader "Set-Cookie" (TL.decodeUtf8 . toLazyByteString $ renderSetCookie c)
 
 
 -- | 'makeSimpleCookie' and 'setCookie' combined.
